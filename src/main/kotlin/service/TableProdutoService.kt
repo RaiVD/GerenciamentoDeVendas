@@ -40,6 +40,62 @@ class TableProdutoService {
             }
         }
 
+        fun listProdutos() {
+            val statement = connection.createStatement()
+            val resultSet = statement.executeQuery("SELECT id_produto, nome_produto, preco_unit FROM produto")
 
+            try {
+                while (resultSet.next()) {
+                    val id_produto = resultSet.getInt("id_produto")
+                    val nome_produto = resultSet.getString("nome_produto")
+                    val preco_unit = resultSet.getDouble("preco_unit")
+
+                    println("ID: $id_produto | Nome: $nome_produto | Preço Unitário: $preco_unit")
+                }
+                resultSet.close()
+                statement.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            }
+        }
+
+        fun getProdutoById(id: Int) {
+            if (!ValidDataBaseModel.isValidProdutoId(id)) {
+                println("ID de produto inválido!")
+                return
+            }
+            val statement = connection.createStatement()
+            val resultSet = statement.executeQuery("SELECT * FROM produto WHERE id_produto=$id")
+
+            try {
+                while (resultSet.next()) {
+                    val id_produto = resultSet.getInt("id_produto")
+                    val nome_produto = resultSet.getString("nome_produto")
+                    val preco_unit = resultSet.getDouble("preco_unit")
+
+                    println("ID: $id_produto | Nome: $nome_produto | Preço Unitário: $preco_unit")
+                }
+                resultSet.close()
+                statement.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            }
+        }
+
+        fun updateProduto(id: Int, novoNome: String, novoPrecoUnit: Double) {
+            if (!ValidDataBaseModel.isValidProdutoId(id)) {
+                println("ID de produto inválido!")
+                return
+            }
+            try {
+                val sql = "UPDATE produto SET nome_produto='$novoNome', preco_unit=$novoPrecoUnit WHERE id_produto=$id"
+                val statement = connection.createStatement()
+                statement.executeUpdate(sql)
+                println("Produto atualizado com sucesso!")
+                statement.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            }
+        }
     }
 }
