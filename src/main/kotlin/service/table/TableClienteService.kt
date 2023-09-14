@@ -1,4 +1,4 @@
-package service
+package service.table
 
 import connection.Connect
 import model.ValidDataBaseModel

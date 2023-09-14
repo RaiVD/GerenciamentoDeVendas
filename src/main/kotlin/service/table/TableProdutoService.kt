@@ -1,4 +1,4 @@
-package service
+package service.table
 
 import connection.Connect
 import model.ValidDataBaseModel
@@ -82,13 +82,13 @@ class TableProdutoService {
             }
         }
 
-        fun updateProduto(id: Int, novoNome: String, novoPrecoUnit: Double) {
+        fun updateProduto(id: Int, novoPrecoUnit: Double) {
             if (!ValidDataBaseModel.isValidProdutoId(id)) {
                 println("ID de produto inválido!")
                 return
             }
             try {
-                val sql = "UPDATE produto SET nome_produto='$novoNome', preco_unit=$novoPrecoUnit WHERE id_produto=$id"
+                val sql = "UPDATE produto SET preco_unit=$novoPrecoUnit WHERE id_produto=$id"
                 val statement = connection.createStatement()
                 statement.executeUpdate(sql)
                 println("Produto atualizado com sucesso!")

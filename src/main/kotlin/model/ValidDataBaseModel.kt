@@ -69,7 +69,6 @@ class ValidDataBaseModel {
             } catch (e: SQLException) {
                 e.printStackTrace()
             }
-
             return false
         }
 
@@ -137,6 +136,14 @@ class ValidDataBaseModel {
             }
 
             return false
+        }
+
+        fun validarQtd(qtd: Int): Boolean {
+            if (qtd <= 0) {
+                println("A quantidade do produto deve ser maior que zero.")
+                return false
+            }
+            return true
         }
     }
 }
