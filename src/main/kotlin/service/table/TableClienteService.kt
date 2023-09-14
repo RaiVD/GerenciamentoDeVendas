@@ -17,7 +17,7 @@ class TableClienteService {
                 if (!ValidDataBaseModel.isValidEmail(email_cliente)){
                     println("Email invalido")
                 }
-                val sql = "INSERT INTO cliente (nome_cliente, email_cliente, cpf, endereco_cliente) VALUES ('$nome_cliente', '$email_cliente', '$cpf', '$endereco_cliente')"
+                val sql = "INSERT INTO cliente (nome_cliente, email_cliente, cpf_cliente, endereco_cliente) VALUES ('$nome_cliente', '$email_cliente', '$cpf', '$endereco_cliente')"
                 val statement = connection.createStatement()
                 statement.executeUpdate(sql)
                 println("Cliente $nome_cliente adicionado com sucesso!")
@@ -45,14 +45,14 @@ class TableClienteService {
 
         fun listCliente() {
             val statement = connection.createStatement()
-            val resultSet = statement.executeQuery("SELECT id_cliente, nome_cliente, email_cliente, cpf, endereco_cliente FROM cliente")
+            val resultSet = statement.executeQuery("SELECT id_cliente, nome_cliente, email_cliente, cpf_cliente, endereco_cliente FROM cliente")
 
             try {
                 while (resultSet.next()) {
                     val id_cliente = resultSet.getInt("id_cliente")
                     val nome_cliente = resultSet.getString("nome_cliente")
                     val email_cliente = resultSet.getString("email_cliente")
-                    val cpf = resultSet.getString("cpf")
+                    val cpf = resultSet.getString("cpf_cliente")
                     val endereco_cliente = resultSet.getString("endereco_cliente")
 
                     println("ID: $id_cliente | Nome: $nome_cliente | Email: $email_cliente | CPF: $cpf | Endereço: $endereco_cliente")
@@ -77,7 +77,7 @@ class TableClienteService {
                     val id_cliente = resultSet.getInt("id_cliente")
                     val nome_cliente = resultSet.getString("nome_cliente")
                     val email_cliente = resultSet.getString("email_cliente")
-                    val cpf = resultSet.getString("cpf")
+                    val cpf = resultSet.getString("cpf_cliente")
                     val endereco_cliente = resultSet.getString("endereco_cliente")
 
                     println("ID: $id_cliente | Nome: $nome_cliente | Email: $email_cliente | CPF: $cpf | Endereço: $endereco_cliente")

@@ -10,12 +10,18 @@ class QueryInDatabaseService {
 
     // Consulta: Itens vendidos acima de 10,00
     fun listItensVendidosAcimaDe10() {
-        val sql = "SELECT * FROM venda WHERE preco_total > 10.00"
+        val sql = """
+            SELECT Venda.id_venda AS venda, Vanda.preco_total AS preco
+            FROM Venda
+            WHERE preco_total > 10.00
+        """.trimIndent()
         try {
             val statement = connection.createStatement()
             val resultSet = statement.executeQuery(sql)
             while (resultSet.next()) {
-                // Processar os resultados conforme necessário
+                val id_venda = resultSet.getInt("venda")
+                val preco_total = resultSet.getDouble("preco")
+                println("Venda: $id_venda | Preço: $preco_total")
             }
             resultSet.close()
             statement.close()
@@ -26,7 +32,12 @@ class QueryInDatabaseService {
 
     // Consulta: Altere o valor do VALOR_TOTAL para zero onde for nulo
     fun updateValoresNulosParaZero() {
-        val sql = "UPDATE venda SET preco_total = 0.00 WHERE preco_total IS NULL"
+        val sql = """
+            UPDATE venda 
+            SET preco_total = 0.00
+            SET qtd_produto = 0.00
+            WHERE preco_total, qtd_produto IS NULL
+            """.trimIndent()
         try {
             val statement = connection.createStatement()
             statement.executeUpdate(sql)
@@ -39,12 +50,12 @@ class QueryInDatabaseService {
 
     // Consulta: Salário dos vendedores, ordenados do maior para o menor
     fun listSalarioVendedoresOrdenados() {
-        val sql = "SELECT salario FROM vendedor ORDER BY salario DESC"
+        val sql = "SELECT salario_vendedor FROM vendedor ORDER BY salario_vendedor DESC"
         try {
             val statement = connection.createStatement()
             val resultSet = statement.executeQuery(sql)
             while (resultSet.next()) {
-                val salario = resultSet.getDouble("salario")
+                val salario = resultSet.getDouble("salario_vendedor")
                 println("Salário: $salario")
             }
             resultSet.close()

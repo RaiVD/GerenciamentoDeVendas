@@ -18,7 +18,7 @@ class TableVendedorService {
                     println("Email inválido")
                     return
                 }
-                val sql = "INSERT INTO vendedor (nome_vendedor, email_vendedor, cpf, salario, senha) VALUES ('$nome_vendedor', '$email_vendedor', '$cpf', $salario, $senha)"
+                val sql = "INSERT INTO vendedor (nome_vendedor, email_vendedor, cpf_vendedor, salario_vendedor, senha) VALUES ('$nome_vendedor', '$email_vendedor', '$cpf', $salario, $senha)"
                 val statement = connection.createStatement()
                 statement.executeUpdate(sql)
                 println("Vendedor $nome_vendedor adicionado com sucesso!")
@@ -52,7 +52,7 @@ class TableVendedorService {
             try {
                 // Validação de dados aqui, se necessário
 
-                val sql = "UPDATE vendedor SET nome_vendedor='$nome_vendedor', email_vendedor='$email_vendedor', cpf='$cpf', salario=$salario WHERE id_vendedor=$id"
+                val sql = "UPDATE vendedor SET nome_vendedor='$nome_vendedor', email_vendedor='$email_vendedor', cpf_vendedor='$cpf', salario_vendedor=$salario WHERE id_vendedor=$id"
                 val statement = connection.createStatement()
                 statement.executeUpdate(sql)
                 println("Vendedor $id atualizado com sucesso!")
@@ -62,15 +62,15 @@ class TableVendedorService {
         }
         fun listVendedores() {
             val statement = connection.createStatement()
-            val resultSet = statement.executeQuery("SELECT id_vendedor, nome_vendedor, email_vendedor, cpf, salario FROM vendedor")
+            val resultSet = statement.executeQuery("SELECT id_vendedor, nome_vendedor, email_vendedor, cpf_vendedor, salario_vendedor FROM vendedor")
 
             try {
                 while (resultSet.next()) {
                     val id_vendedor = resultSet.getInt("id_vendedor")
                     val nome_vendedor = resultSet.getString("nome_vendedor")
                     val email_vendedor = resultSet.getString("email_vendedor")
-                    val cpf = resultSet.getString("cpf")
-                    val salario = resultSet.getDouble("salario")
+                    val cpf = resultSet.getString("cpf_vendedor")
+                    val salario = resultSet.getDouble("salario_vendedor")
 
                     println("ID: $id_vendedor | Nome: $nome_vendedor | Email: $email_vendedor | CPF: $cpf | Salário: $salario")
                 }
@@ -94,8 +94,8 @@ class TableVendedorService {
                     val id_vendedor = resultSet.getInt("id_vendedor")
                     val nome_vendedor = resultSet.getString("nome_vendedor")
                     val email_vendedor = resultSet.getString("email_vendedor")
-                    val cpf = resultSet.getString("cpf")
-                    val salario = resultSet.getDouble("salario")
+                    val cpf = resultSet.getString("cpf_vendedor")
+                    val salario = resultSet.getDouble("salario_vendedor")
 
                     println("ID: $id_vendedor | Nome: $nome_vendedor | Email: $email_vendedor | CPF: $cpf | Salário: $salario")
                 }
