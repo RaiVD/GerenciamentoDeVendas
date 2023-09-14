@@ -44,7 +44,7 @@ class TableVendedorService {
             }
         }
         // Função para atualizar um vendedor
-        fun updateVendedor(id: Int, nome_vendedor: String, email_vendedor: String, cpf: String, salario: Double) {
+        fun updateVendedor(id: Int, email_vendedor: String,salario: Double) {
             if (!ValidDataBaseModel.isValidVendedorId(id)) {
                 println("ID de vendedor inválido!")
                 return
@@ -52,7 +52,7 @@ class TableVendedorService {
             try {
                 // Validação de dados aqui, se necessário
 
-                val sql = "UPDATE vendedor SET nome_vendedor='$nome_vendedor', email_vendedor='$email_vendedor', cpf_vendedor='$cpf', salario_vendedor=$salario WHERE id_vendedor=$id"
+                val sql = "UPDATE vendedor SET email_vendedor='$email_vendedor', salario_vendedor=$salario WHERE id_vendedor=$id"
                 val statement = connection.createStatement()
                 statement.executeUpdate(sql)
                 println("Vendedor $id atualizado com sucesso!")
