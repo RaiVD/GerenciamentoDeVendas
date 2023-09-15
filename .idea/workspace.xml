@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39e59dae-e60b-4b2d-9866-051028d4fd95" name="Changes" comment="Commit atualização">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuConsultas.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuVendas.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuVendedores.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/QueryInDatabaseService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/consultas/QueryInDatabaseService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendedorService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendedorService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuGerente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuGerente.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuCliente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuCliente.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuEstoque.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuEstoque.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuVenda.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuVenda.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/MenuPrincipalView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/MenuPrincipalView.kt" afterDir="false" />
     </list>
@@ -52,7 +57,11 @@
       <recent name="C:\Users\raissa.carvalho\Desktop\RHSimCity\src\main\kotlin" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="service.consultas" />
       <recent name="service.table" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="view.LoginGerente" />
     </key>
   </component>
   <component name="RunManager">
@@ -134,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694780444496</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Commit atualização">
+      <created>1694785040277</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1694785040277</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

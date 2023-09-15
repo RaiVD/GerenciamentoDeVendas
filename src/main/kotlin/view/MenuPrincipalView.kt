@@ -23,16 +23,22 @@ class MenuPrincipalView {
                         MenuVendedor().start()
                     } else {
                         println("E-mail ou Senha invalidos!")
-                        return
                     }
                 }
-//                    2 -> MenuGerente().start()
+                2 -> {
+                    val email_user = inputUserModel.readStringFromUser("E-mail: ")
+                    val password_user = inputUserModel.readIntFromUser("Senha: ")
+                    if (ValidDataBaseModel.isValidGerenteCredentials(email_user, password_user)) {
+                        MenuGerente().start()
+                    } else {
+                        println("E-mail ou Senha invalidos!")
+                    }
+                }
                 else -> println("Opção inválida, tente novamente!")
             }
         } while (option != 0)
     }
-
     private fun printMenu() {
-        println("0. Sair | 1. Login Vendedor | 2. Login Gerente")
+        println("\n0. Sair | 1. Login Vendedor | 2. Login Gerente")
     }
 }

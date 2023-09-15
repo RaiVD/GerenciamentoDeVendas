@@ -28,16 +28,59 @@ class TableVendedorService {
         }
 
         fun deleteVendedor(id: Int) {
-            if (!ValidDataBaseModel.isValidVendedorId(id)) {
-                println("ID de vendedor inválido!")
+            if (!ValidDataBaseModel.isValidVendaId(id)) {
+                println("ID de Vendedor inválido!")
                 return
             }
-            val sql = "DELETE FROM vendedor WHERE id_vendedor=$id"
 
             try {
-                val statement = connection.createStatement()
+                val consultaVendasSql = "SELECT id_venda FROM venda WHERE id_vendedor = $id"
+                val statementConsulta = TableClienteService.connection.createStatement()
+                val resultadoConsulta = statementConsulta.executeQuery(consultaVendasSql)
+
+                val idsVendasRelacionadas = mutableListOf<Int>()
+
+                while (resultadoConsulta.next()) {
+                    val idVendaRelacionada = resultadoConsulta.getInt("id_venda")
+                    idsVendasRelacionadas.add(idVendaRelacionada)
+                }
+
+                for (idVenda in idsVendasRelacionadas) {
+                    val atualizarVendaSql = "UPDATE venda SET id_vendedor = NULL WHERE id_venda = $idVenda"
+                    val statementAtualizacao = TableClienteService.connection.createStatement()
+                    statementAtualizacao.executeUpdate(atualizarVendaSql)
+                }
+
+                val sql = "DELETE FROM vendedor WHERE id_vendedor = $id"
+                val statement = TableClienteService.connection.createStatement()
                 statement.executeUpdate(sql)
                 println("Vendedor deletado com sucesso!")
+
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            }
+        }
+
+        fun listeVendasDosVendedoresExcluidos() {
+            val sql = """
+        SELECT id_venda, id_cliente, id_vendedor, id_produto, qtd_produto, preco_total
+        FROM venda
+        WHERE id_vendedor IS NULL
+        """.trimIndent()
+            try {
+                val statement = connection.createStatement()
+                val resultSet = statement.executeQuery(sql)
+                while (resultSet.next()) {
+                    val id_venda = resultSet.getInt("id_venda")
+                    val id_cliente = resultSet.getInt("id_cliente")
+                    val id_vendedor = resultSet.getInt("id_vendedor")
+                    val id_produto = resultSet.getInt("id_produto")
+                    val qtd_produto = resultSet.getInt("qtd_produto")
+                    val preco_total = resultSet.getDouble("preco_total")
+
+                    println("ID Venda: $id_venda | ID Cliente: $id_cliente | ID Vendedor: $id_vendedor | ID Produto: $id_produto | Quantidade: $qtd_produto | Preço Total: $preco_total")
+                }
+                resultSet.close()
                 statement.close()
             } catch (e: SQLException) {
                 e.printStackTrace()

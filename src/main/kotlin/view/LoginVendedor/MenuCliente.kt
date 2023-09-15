@@ -15,8 +15,7 @@ class MenuCliente {
                 0 -> MenuVendedor()
                 1 -> addCliente()
                 2 -> listarCliente()
-                3 -> deletarCliente()
-                4 -> editarCliente()
+                3 -> editarCliente()
                 else -> println("Opção inválida, tente novamente!")
             }
         } while (option != 0)
@@ -31,10 +30,6 @@ class MenuCliente {
     fun listarCliente(){
         TableClienteService.listCliente()
     }
-    fun deletarCliente(){
-        val id = inputUserModel.readIntFromUser("ID do Produto: ")
-        TableClienteService.deleteCliente(id)
-    }
     fun editarCliente(){
         val id = inputUserModel.readIntFromUser("ID do Produto: ")
         val email_cliente = inputUserModel.readStringFromUser("E-mail: ")
@@ -46,8 +41,7 @@ class MenuCliente {
         println("\n0. Menu Vendedor | " +
                 "1. Cadastar Cliente | " +
                 "2. Clientes Cadastrados | " +
-                "3. Deletar Cliente | " +
-                "4. Editar Endereço do Cliente | "
+                "3. Editar Endereço do Cliente"
         )
     }
 }

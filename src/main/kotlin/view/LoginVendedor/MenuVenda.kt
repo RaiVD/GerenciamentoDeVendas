@@ -17,8 +17,6 @@ class MenuVenda {
                 0 -> MenuVendedor()
                 1 -> addVenda()
                 2 -> listarMinhasVendas()
-                3 -> deletarVenda()
-                4 -> editarVenda()
                 else -> println("Opção inválida, tente novamente!")
             }
         } while (option != 0)
@@ -37,22 +35,11 @@ class MenuVenda {
     fun listarMinhasVendas(){
         TableVendaService.listVendas()
     }
-    fun deletarVenda(){
-        val id = inputUserModel.readIntFromUser("ID do Produto: ")
-        TableVendaService.deleteVenda(id)
-    }
-    fun editarVenda(){
-        val id = inputUserModel.readIntFromUser("ID do Produto: ")
-        val quantidade = inputUserModel.readIntFromUser("Quantidade: ")
-        TableVendaService.updateVendaQuantidade(id, quantidade)
-    }
 
     private fun printMenu() {
         println("\n0. Menu Vendedor | " +
                 "1. Cadastar Venda | " +
-                "2. Vendas Cadastrados | " +
-                "3. Deletar Vendas | " +
-                "4. Editar Vendas | "
+                "2. Vendas Cadastrados"
         )
     }
 }
