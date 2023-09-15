@@ -6,7 +6,6 @@ import view.MenuPrincipalView
 class MenuVendedor {
     private val inputUserModel = InputUserModel()
     fun start() {
-        println("\n========================== RH SimCity ============================")
         var option: Int
         do {
             printMenu()

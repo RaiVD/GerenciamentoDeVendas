@@ -1,6 +1,7 @@
 package view.LoginVendedor
 
 import model.InputUserModel
+import service.table.TableVendedorService
 
 class MenuVenda {
     private val inputUserModel = InputUserModel()
@@ -19,6 +20,9 @@ class MenuVenda {
                 else -> println("Opção inválida, tente novamente!")
             }
         } while (option != 0)
+    }
+    fun addVendedor(){
+
     }
     private fun printMenu() {
         println("0. Menu Vendedor | " +
