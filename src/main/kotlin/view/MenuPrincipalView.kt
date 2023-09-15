@@ -8,7 +8,7 @@ import view.LoginVendedor.MenuVendedor
 class MenuPrincipalView {
     private val inputUserModel = InputUserModel()
     fun start() {
-        println("\n========================== RH SimCity ============================")
+        println("\n========================== Gerenciamento de Vendas - SimCity ============================")
         var option: Int
         do {
             printMenu()
