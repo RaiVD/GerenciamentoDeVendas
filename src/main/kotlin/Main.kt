@@ -1,7 +1,7 @@
-import service.QueryInDatabaseService
-import service.table.TableClienteService
-import service.table.TableVendaService
+
+import view.MenuPrincipalView
 
 fun main(args: Array<String>) {
-
+ val menuPrincipalView = MenuPrincipalView()
+    menuPrincipalView.start()
 }

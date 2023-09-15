@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39e59dae-e60b-4b2d-9866-051028d4fd95" name="Changes" comment="Commit atualização">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/QueryInDatabaseService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/QueryInDatabaseService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuGerente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuGerente.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuCliente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuCliente.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuVenda.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginVendedor/MenuVenda.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/MenuPrincipalView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/MenuPrincipalView.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,7 +113,21 @@
       <option name="project" value="LOCAL" />
       <updated>1694735117597</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Commit atualização">
+      <created>1694739665211</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1694739665211</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Commit atualização">
+      <created>1694739673659</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1694739673659</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

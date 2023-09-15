@@ -106,18 +106,30 @@ class ValidDataBaseModel {
             return nome_cliente.isNotBlank() && email_cliente.isNotBlank() && cpf.isNotBlank() && endereco_cliente.isNotBlank()
         }
 
+        fun validarQtd(qtd: Int): Boolean {
+            if (qtd <= 0) {
+                println("A quantidade do produto deve ser maior que zero.")
+                return false
+            }
+            return true
+        }
         // Validar entrada de email
 
         fun isValidEmail(email: String): Boolean {
             return email.contains("@")
         }
-        fun isValidAdminCredentials(email_user: String, password_user: Int): Boolean {
-            if (email_user.isBlank()) {
-                println("O email do usuário e a senha não podem estar vazios.")
+        fun isValidVendedorCredentials(email_user: String, password_user: Int): Boolean {
+
+            if (email_user.isBlank() || isValidEmail(email_user)) {
+                println("E-mail ou senha inválido.")
                 return false
             }
 
-            val sql = "SELECT COUNT(*) FROM administrator WHERE email_user=? AND password_user=?"
+            val sql = """
+                SELECT COUNT(*) 
+                FROM vendedor 
+                WHERE (email_user=? AND password_user=?) OR (gerencia=false)
+            """.trimIndent()
 
             try {
                 val preparedStatement = connection.prepareStatement(sql)
@@ -134,16 +146,39 @@ class ValidDataBaseModel {
             } catch (e: SQLException) {
                 e.printStackTrace()
             }
+            return false
+        }
+        fun isValidGerenteCredentials(email_user: String, password_user: Int): Boolean {
 
+            if (email_user.isBlank() || isValidEmail(email_user)) {
+                println("E-mail ou senha inválido.")
+                return false
+            }
+
+            val sql = """
+                SELECT COUNT(*) 
+                FROM vendedor 
+                WHERE (email_user=? AND password_user=?) OR (gerencia=true)
+            """.trimIndent()
+
+            try {
+                val preparedStatement = connection.prepareStatement(sql)
+                preparedStatement.setString(1, email_user)
+                preparedStatement.setInt(2, password_user)
+                val resultSet = preparedStatement.executeQuery()
+                resultSet.next()
+                val count = resultSet.getInt(1)
+
+                resultSet.close()
+                preparedStatement.close()
+
+                return count > 0
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            }
             return false
         }
 
-        fun validarQtd(qtd: Int): Boolean {
-            if (qtd <= 0) {
-                println("A quantidade do produto deve ser maior que zero.")
-                return false
-            }
-            return true
-        }
+
     }
 }
