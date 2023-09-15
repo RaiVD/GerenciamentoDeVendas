@@ -55,4 +55,5 @@ Raissa Vicente Dias
 * [GitHub](https://github.com/RaiVD)
 * [Linkedin](https://www.linkedin.com/mwlite/in/raissa-vicente-86a3b2210)
 
-![img.png](img.png)
+## Modelo Relacional do Banco de dados
+![img_1.png](img_1.png)
