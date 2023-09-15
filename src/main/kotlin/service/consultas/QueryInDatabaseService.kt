@@ -131,7 +131,7 @@ class QueryInDatabaseService {
             val resultSet = statement.executeQuery(sql)
             while (resultSet.next()) {
                 val salario = resultSet.getDouble("salario_vendedor")
-                val nome = resultSet.getDouble("nome_vendedor")
+                val nome = resultSet.getString("nome_vendedor")
                 println("Nome do Vendedor: $nome | Salario: $salario")
             }
             resultSet.close()

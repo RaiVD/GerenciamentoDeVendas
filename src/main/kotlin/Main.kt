@@ -1,7 +1,7 @@
 
 import view.MenuPrincipalView
 
-fun main(args: Array<String>) {
+fun main() {
  val menuPrincipalView = MenuPrincipalView()
     menuPrincipalView.start()
 }

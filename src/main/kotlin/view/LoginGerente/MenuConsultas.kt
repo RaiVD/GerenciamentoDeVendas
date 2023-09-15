@@ -47,11 +47,11 @@ class MenuConsultas {
     }
     private fun printMenu() {
         println(
-            "\n0. Menu Gerente | " +
-            "1. Vendas acima de R$10.00 | " +
-            "2. Deletar Cliente (Mantendo Vendas Relacionadas) | " +
-            "3. Listar Vendas dos Clientes Deletados | " +
-            "4. Clientes com E-mail 'zup.com.br' | " +
+            "\n0. Menu Gerente\n" +
+            "1. Vendas acima de R$10.00\n" +
+            "2. Deletar Cliente (Mantendo Vendas Relacionadas)\n" +
+            "3. Listar Vendas dos Clientes Deletados\n" +
+            "4. Clientes com E-mail 'zup.com.br'\n" +
             "5. Listar Salario dos Vendedores/Gerentes"
         )
     }

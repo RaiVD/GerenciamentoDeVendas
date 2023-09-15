@@ -62,33 +62,6 @@ class TableVendaService {
                 e.printStackTrace()
             }
         }
-
-        fun listSpecificVenda(id: Int) {
-            if (!ValidDataBaseModel.isValidVendaId(id)) {
-                println("ID de venda inválido!")
-                return
-            }
-            val sql = "SELECT * FROM venda WHERE id_venda=$id"
-            try {
-                val statement = connection.createStatement()
-                val resultSet = statement.executeQuery(sql)
-                while (resultSet.next()) {
-                    val id_venda = resultSet.getInt("id_venda")
-                    val id_cliente = resultSet.getInt("id_cliente")
-                    val id_vendedor = resultSet.getInt("id_vendedor")
-                    val id_produto = resultSet.getInt("id_produto")
-                    val qtd_produto = resultSet.getInt("qtd_produto")
-                    val preco_total = resultSet.getDouble("preco_total")
-
-                    println("ID Venda: $id_venda | ID Cliente: $id_cliente | ID Vendedor: $id_vendedor | ID Produto: $id_produto | Quantidade: $qtd_produto | Preço Total: $preco_total")
-                }
-                resultSet.close()
-                statement.close()
-            } catch (e: SQLException) {
-                e.printStackTrace()
-            }
-        }
-
         fun updateVendaQuantidade(id_venda: Int, qtd_produto: Int) {
             try {
                 ValidDataBaseModel.validarQtd(qtd_produto)
@@ -121,6 +94,5 @@ class TableVendaService {
                 e.printStackTrace()
             }
         }
-
     }
 }

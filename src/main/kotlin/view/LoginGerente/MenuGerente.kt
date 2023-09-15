@@ -2,6 +2,7 @@ package view.LoginGerente
 
 import model.InputUserModel
 import view.LoginVendedor.MenuVendedor
+import view.MenuPrincipalView
 
 class MenuGerente {
     private val inputUserModel = InputUserModel()
@@ -12,10 +13,10 @@ class MenuGerente {
             option = inputUserModel.readIntFromUser("Qual opção você deseja: ")
 
             when (option) {
-                0 -> println("Encerrando o programa...")
+                0 -> MenuPrincipalView()
                 1 -> MenuConsultas().start()
                 2 -> MenuVendas().start()
-                3 -> MenuVendedor().start()
+                3 -> MenuVendedores().start()
                 else -> println("Opção inválida, tente novamente!")
             }
         } while (option != 0)

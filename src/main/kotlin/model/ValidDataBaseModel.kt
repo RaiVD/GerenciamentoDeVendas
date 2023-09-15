@@ -113,6 +113,9 @@ class ValidDataBaseModel {
             }
             return true
         }
+        fun validarValor(qtd: Double): Boolean {
+            return qtd > 0
+        }
         // Validar entrada de email
 
         fun isValidEmail(email: String): Boolean {
@@ -166,7 +169,5 @@ class ValidDataBaseModel {
             }
             return false
         }
-
-
     }
 }
