@@ -2,7 +2,7 @@
 CREATE TABLE Produto (
     id_produto SERIAL PRIMARY KEY,
     nome_produto VARCHAR(255),
-    preco_unit DECIMAL(10, 2)
+    preco_unit DOUBLE
 );
 
 -- Tabela Cliente
