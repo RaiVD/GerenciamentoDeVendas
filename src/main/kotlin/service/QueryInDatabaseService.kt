@@ -31,21 +31,21 @@ class QueryInDatabaseService {
     }
 
     // Consulta: Altere o valor do VALOR_TOTAL para zero onde for nulo
-    fun updateValoresNulosParaZero() {
-        val sql = """
-            UPDATE venda 
-            SET preco_total = 0.00, qtd_produto = 0.00
-            WHERE preco_total IS NULL OR qtd_produto IS NULL
-            """.trimIndent()
-        try {
-            val statement = connection.createStatement()
-            statement.executeUpdate(sql)
-            println("Valores nulos de VALOR_TOTAL e QTD_PRODUTO atualizados para zero com sucesso!")
-            statement.close()
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        }
-    }
+//    fun updateValoresNulosParaZero() {
+//        val sql = """
+//            UPDATE venda
+//            SET preco_total = 0.00, qtd_produto = 0.00
+//            WHERE preco_total IS NULL OR qtd_produto IS NULL
+//            """.trimIndent()
+//        try {
+//            val statement = connection.createStatement()
+//            statement.executeUpdate(sql)
+//            println("Valores nulos de VALOR_TOTAL e QTD_PRODUTO atualizados para zero com sucesso!")
+//            statement.close()
+//        } catch (e: SQLException) {
+//            e.printStackTrace()
+//        }
+//    }
 
     // Consulta: Salário dos vendedores, ordenados do maior para o menor
     fun listSalarioVendedoresOrdenados() {

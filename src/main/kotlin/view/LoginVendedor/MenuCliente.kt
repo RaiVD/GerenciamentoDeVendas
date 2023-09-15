@@ -12,7 +12,7 @@ class MenuCliente {
             option = inputUserModel.readIntFromUser("Qual opção você deseja: ")
 
             when (option) {
-                0 -> MenuVendedor().start()
+                0 -> MenuVendedor()
                 1 -> addCliente()
                 2 -> listarCliente()
                 3 -> deletarCliente()
@@ -43,7 +43,7 @@ class MenuCliente {
     }
 
     private fun printMenu() {
-        println("0. Menu Vendedor | " +
+        println("\n0. Menu Vendedor | " +
                 "1. Cadastar Cliente | " +
                 "2. Clientes Cadastrados | " +
                 "3. Deletar Cliente | " +

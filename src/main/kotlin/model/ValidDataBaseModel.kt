@@ -119,16 +119,10 @@ class ValidDataBaseModel {
             return email.contains("@")
         }
         fun isValidVendedorCredentials(email_user: String, password_user: Int): Boolean {
-
-            if (email_user.isBlank() || isValidEmail(email_user)) {
-                println("E-mail ou senha inválido.")
-                return false
-            }
-
             val sql = """
                 SELECT COUNT(*) 
                 FROM vendedor 
-                WHERE (email_user=? AND password_user=?) OR (gerencia=false)
+                WHERE (email_vendedor=? AND senha=? AND gerencia=false)
             """.trimIndent()
 
             try {
@@ -149,16 +143,10 @@ class ValidDataBaseModel {
             return false
         }
         fun isValidGerenteCredentials(email_user: String, password_user: Int): Boolean {
-
-            if (email_user.isBlank() || isValidEmail(email_user)) {
-                println("E-mail ou senha inválido.")
-                return false
-            }
-
             val sql = """
                 SELECT COUNT(*) 
                 FROM vendedor 
-                WHERE (email_user=? AND password_user=?) OR (gerencia=true)
+                WHERE (email_vendedor=? AND senha=? AND gerencia=true)
             """.trimIndent()
 
             try {

@@ -6,14 +6,13 @@ import service.table.TableProdutoService
 class MenuEstoque {
     private val inputUserModel = InputUserModel()
     fun start() {
-        println("\n========================== RH SimCity ============================")
         var option: Int
         do {
             printMenu()
             option = inputUserModel.readIntFromUser("Qual opção você deseja: ")
 
             when (option) {
-                0 -> MenuVendedor().start()
+                0 -> MenuVendedor()
                 1 -> addProduto()
                 2 -> listarProdutos()
                 3 -> deletarProduto()
@@ -40,7 +39,7 @@ class MenuEstoque {
         TableProdutoService.updateProduto(id, preco_unit)
     }
     private fun printMenu() {
-        println("0. Menu Vendedor | " +
+        println("\n0. Menu Vendedor | " +
                 "1. Adicionar Produtos ao Estoque | " +
                 "2. Listar Estoque de Produtos | " +
                 "3. Deletar Produto | " +

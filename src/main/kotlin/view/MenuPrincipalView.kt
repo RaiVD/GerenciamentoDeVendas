@@ -17,12 +17,12 @@ class MenuPrincipalView {
             when (option) {
                 0 -> println("Encerrando o programa...")
                 1 -> {
-                    val email_user = inputUserModel.readStringFromUser("Email: ")
+                    val email_user = inputUserModel.readStringFromUser("E-mail: ")
                     val password_user = inputUserModel.readIntFromUser("Senha: ")
                     if (ValidDataBaseModel.isValidVendedorCredentials(email_user, password_user)) {
                         MenuVendedor().start()
                     } else {
-                        println("Email ou Senha invalidos!")
+                        println("E-mail ou Senha invalidos!")
                         return
                     }
                 }
