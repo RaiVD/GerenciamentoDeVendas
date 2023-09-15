@@ -11,7 +11,7 @@ class ValidDataBaseModel {
 
         // Validar ID
         fun isValidVendaId(id: Int): Boolean {
-            val sql = "SELECT COUNT(*) FROM venda WHERE id=?"
+            val sql = "SELECT COUNT(*) FROM venda WHERE id_venda=?"
 
             try {
                 val preparedStatement = connection.prepareStatement(sql)
@@ -32,7 +32,7 @@ class ValidDataBaseModel {
         }
 
         fun isValidProdutoId(id: Int): Boolean {
-            val sql = "SELECT COUNT(*) FROM produto WHERE id=?"
+            val sql = "SELECT COUNT(*) FROM produto WHERE id_produto=?"
 
             try {
                 val preparedStatement = connection.prepareStatement(sql)
@@ -53,7 +53,7 @@ class ValidDataBaseModel {
         }
 
         fun isValidVendedorId(id: Int): Boolean {
-            val sql = "SELECT COUNT(*) FROM vendedor WHERE id = ?"
+            val sql = "SELECT COUNT(*) FROM vendedor WHERE id_vendedor= ?"
 
             try {
                 val preparedStatement = connection.prepareStatement(sql)
@@ -73,7 +73,7 @@ class ValidDataBaseModel {
         }
 
         fun isValidClienteId(id: Int): Boolean {
-            val sql = "SELECT COUNT(*) FROM cliente WHERE id=?"
+            val sql = "SELECT COUNT(*) FROM cliente WHERE id_cliente=?"
 
             try {
                 val preparedStatement = connection.prepareStatement(sql)

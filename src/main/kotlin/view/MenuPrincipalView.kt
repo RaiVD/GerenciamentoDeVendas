@@ -16,7 +16,7 @@ class MenuPrincipalView {
             when (option) {
                 0 -> println("Encerrando o programa...")
                 1 -> MenuVendedor().start()
-                2 -> MenuGerente().start()
+//                2 -> MenuGerente().start()
                 else -> println("Opção inválida, tente novamente!")
             }
         } while (option != 0)
