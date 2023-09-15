@@ -5,24 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39e59dae-e60b-4b2d-9866-051028d4fd95" name="Changes" comment="Commit README.md">
-      <change afterPath="$PROJECT_DIR$/ReadmeSQL.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/service/consultas/QueryInDatabaseServiceTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/service/table/TableClienteServiceTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/service/table/TableProdutoServiceTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/service/table/TableVendaServiceTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/service/table/TableVendedorServiceTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documentacao_SQL" beforeDir="false" afterPath="$PROJECT_DIR$/Documentacao_SQL" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/consultas/QueryInDatabaseService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/consultas/QueryInDatabaseService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableProdutoService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableProdutoService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendaService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendaService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendedorService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendedorService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuConsultas.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuConsultas.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuGerente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/LoginGerente/MenuGerente.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +69,7 @@
       <recent name="view.LoginGerente" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.MainKt">
+  <component name="RunManager" selected="JUnit.QueryInDatabaseServiceTest.testListItensVendidosAcimaDe10Invalid">
     <configuration name="QueryInDatabaseServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="RHSimCity" />
       <extension name="coverage">
@@ -101,17 +85,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TableVendaServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="QueryInDatabaseServiceTest.testListItensVendidosAcimaDe10Invalid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="RHSimCity" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="service.table.*" />
+          <option name="PATTERN" value="service.consultas.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="service.table" />
-      <option name="MAIN_CLASS_NAME" value="service.table.TableVendaServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="service.consultas" />
+      <option name="MAIN_CLASS_NAME" value="service.consultas.QueryInDatabaseServiceTest" />
+      <option name="METHOD_NAME" value="testListItensVendidosAcimaDe10Invalid" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -148,11 +133,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.QueryInDatabaseServiceTest.testListItensVendidosAcimaDe10Invalid" />
         <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="JUnit.kotlin in RHSimCity" />
         <item itemvalue="JUnit.QueryInDatabaseServiceTest" />
         <item itemvalue="JUnit.TableVendedorServiceTest" />
-        <item itemvalue="JUnit.TableVendaServiceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -256,7 +241,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694794217756</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Commit README.md">
+      <created>1694803797754</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1694803797755</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
