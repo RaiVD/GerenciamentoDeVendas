@@ -1,0 +1,261 @@
+Index: src/main/kotlin/service/table/TableVendaService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package service.table\r\n\r\nimport connection.Connect\r\nimport model.ValidDataBaseModel\r\nimport java.sql.SQLException\r\n\r\nclass TableVendaService {\r\n    companion object {\r\n        var connection = Connect().creatConnect()\r\n\r\n        fun addVenda(id_cliente: Int, id_vendedor: Int, id_produto: Int, qtd_produto: Int) {\r\n            try {\r\n                ValidDataBaseModel.validarQtd(qtd_produto)\r\n                val sql = \"\"\"\r\n                    INSERT INTO venda (id_cliente, id_vendedor, id_produto, qtd_produto, preco_total)\r\n                    SELECT $id_cliente, $id_vendedor, $id_produto, $qtd_produto, Produto.preco_unit * $qtd_produto\r\n                    FROM Produto\r\n                    WHERE Produto.id_produto = $id_produto\r\n                \"\"\".trimIndent()\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Venda adicionada com sucesso!\")\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n        fun deleteVenda(id: Int) {\r\n            if (!ValidDataBaseModel.isValidVendaId(id)) {\r\n                println(\"ID de venda inválido!\")\r\n                return\r\n            }\r\n            val sql = \"DELETE FROM venda WHERE id_venda=$id\"\r\n\r\n            try {\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Venda deletada com sucesso!\")\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun listVendas() {\r\n            val sql = \"SELECT id_venda, id_cliente, id_vendedor, id_produto, qtd_produto, preco_total FROM venda\"\r\n            try {\r\n                val statement = connection.createStatement()\r\n                val resultSet = statement.executeQuery(sql)\r\n                while (resultSet.next()) {\r\n                    val id_venda = resultSet.getInt(\"id_venda\")\r\n                    val id_cliente = resultSet.getInt(\"id_cliente\")\r\n                    val id_vendedor = resultSet.getInt(\"id_vendedor\")\r\n                    val id_produto = resultSet.getInt(\"id_produto\")\r\n                    val qtd_produto = resultSet.getInt(\"qtd_produto\")\r\n                    val preco_total = resultSet.getDouble(\"preco_total\")\r\n\r\n                    println(\"ID Venda: $id_venda | ID Cliente: $id_cliente | ID Vendedor: $id_vendedor | ID Produto: $id_produto | Quantidade: $qtd_produto | Preço Total: $preco_total\")\r\n                }\r\n                resultSet.close()\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun listSpecificVenda(id: Int) {\r\n            if (!ValidDataBaseModel.isValidVendaId(id)) {\r\n                println(\"ID de venda inválido!\")\r\n                return\r\n            }\r\n            val sql = \"SELECT * FROM venda WHERE id_venda=$id\"\r\n            try {\r\n                val statement = connection.createStatement()\r\n                val resultSet = statement.executeQuery(sql)\r\n                while (resultSet.next()) {\r\n                    val id_venda = resultSet.getInt(\"id_venda\")\r\n                    val id_cliente = resultSet.getInt(\"id_cliente\")\r\n                    val id_vendedor = resultSet.getInt(\"id_vendedor\")\r\n                    val id_produto = resultSet.getInt(\"id_produto\")\r\n                    val qtd_produto = resultSet.getInt(\"qtd_produto\")\r\n                    val preco_total = resultSet.getDouble(\"preco_total\")\r\n\r\n                    println(\"ID Venda: $id_venda | ID Cliente: $id_cliente | ID Vendedor: $id_vendedor | ID Produto: $id_produto | Quantidade: $qtd_produto | Preço Total: $preco_total\")\r\n                }\r\n                resultSet.close()\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun updateVendaQuantidade(id_venda: Int, qtd_produto: Int) {\r\n            try {\r\n                ValidDataBaseModel.validarQtd(qtd_produto)\r\n                if (!ValidDataBaseModel.isValidVendaId(id_venda)) {\r\n                    println(\"ID de venda inválido!\")\r\n                    return\r\n                }\r\n                // Verificar se a venda existe antes de atualizar\r\n                val verificaVenda = \"SELECT COUNT(*) AS total FROM venda WHERE id_venda = $id_venda\"\r\n                val statementVerifica = connection.createStatement()\r\n                val resultSetVerifica = statementVerifica.executeQuery(verificaVenda)\r\n                resultSetVerifica.next()\r\n                val totalVendas = resultSetVerifica.getInt(\"total\")\r\n                resultSetVerifica.close()\r\n                statementVerifica.close()\r\n\r\n                if (totalVendas == 0) {\r\n                    println(\"Venda com ID $id_venda não encontrada.\")\r\n                    return\r\n                }\r\n\r\n                // Atualizar a quantidade do produto na venda\r\n                val sql = \"UPDATE venda SET qtd_produto = $qtd_produto, preco_total = qtd_produto * Produto.preco_unit \" +\r\n                        \"FROM Produto WHERE venda.id_venda = $id_venda AND Produto.id_produto = venda.id_produto\".trimIndent()\r\n\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Quantidade do produto na venda com ID $id_venda atualizada com sucesso!\")\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/kotlin/service/table/TableVendaService.kt b/src/main/kotlin/service/table/TableVendaService.kt
+--- a/src/main/kotlin/service/table/TableVendaService.kt	
++++ b/src/main/kotlin/service/table/TableVendaService.kt	
+@@ -8,10 +8,11 @@
+     companion object {
+         var connection = Connect().creatConnect()
+ 
+-        fun addVenda(id_cliente: Int, id_vendedor: Int, id_produto: Int, qtd_produto: Int) {
++        fun addVenda(id_cliente: Int, id_vendedor: Int, id_produto: Int, qtd_produto: Int?, preco_total: Int?) {
+             try {
+-                ValidDataBaseModel.validarQtd(qtd_produto)
+-                val sql = """
++//                ValidDataBaseModel.validarQtd(qtd_produto)
++                val sql =
++                    """
+                     INSERT INTO venda (id_cliente, id_vendedor, id_produto, qtd_produto, preco_total)
+                     SELECT $id_cliente, $id_vendedor, $id_produto, $qtd_produto, Produto.preco_unit * $qtd_produto
+                     FROM Produto
+@@ -45,19 +46,19 @@
+             val sql = "SELECT id_venda, id_cliente, id_vendedor, id_produto, qtd_produto, preco_total FROM venda"
+             try {
+                 val statement = connection.createStatement()
+-                val resultSet = statement.executeQuery(sql)
+-                while (resultSet.next()) {
+-                    val id_venda = resultSet.getInt("id_venda")
+-                    val id_cliente = resultSet.getInt("id_cliente")
+-                    val id_vendedor = resultSet.getInt("id_vendedor")
+-                    val id_produto = resultSet.getInt("id_produto")
+-                    val qtd_produto = resultSet.getInt("qtd_produto")
+-                    val preco_total = resultSet.getDouble("preco_total")
++                val resultSet = statement?.executeQuery(sql)
++                while (resultSet?.next() == true) {
++                    val id_venda = resultSet?.getInt("id_venda")
++                    val id_cliente = resultSet?.getInt("id_cliente")
++                    val id_vendedor = resultSet?.getInt("id_vendedor")
++                    val id_produto = resultSet?.getInt("id_produto")
++                    val qtd_produto = resultSet?.getInt("qtd_produto")
++                    val preco_total = resultSet?.getDouble("preco_total")
+ 
+                     println("ID Venda: $id_venda | ID Cliente: $id_cliente | ID Vendedor: $id_vendedor | ID Produto: $id_produto | Quantidade: $qtd_produto | Preço Total: $preco_total")
+                 }
+-                resultSet.close()
+-                statement.close()
++                resultSet?.close()
++                statement?.close()
+             } catch (e: SQLException) {
+                 e.printStackTrace()
+             }
+@@ -89,9 +90,9 @@
+             }
+         }
+ 
+-        fun updateVendaQuantidade(id_venda: Int, qtd_produto: Int) {
++        fun updateVendaQuantidade(id_venda: Int, qtd_produto: Int?) {
+             try {
+-                ValidDataBaseModel.validarQtd(qtd_produto)
++//                ValidDataBaseModel.validarQtd(qtd_produto)
+                 if (!ValidDataBaseModel.isValidVendaId(id_venda)) {
+                     println("ID de venda inválido!")
+                     return
+Index: src/main/kotlin/service/QueryInDatabaseService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package service\r\n\r\nimport connection.Connect\r\nimport model.ValidDataBaseModel\r\nimport java.sql.SQLException\r\nimport java.text.DecimalFormat\r\n\r\nclass QueryInDatabaseService {\r\n    var connection = Connect().creatConnect()\r\n\r\n    // Consulta: Itens vendidos acima de 10,00\r\n    fun listItensVendidosAcimaDe10() {\r\n        val sql = \"SELECT * FROM venda WHERE preco_total > 10.00\"\r\n        try {\r\n            val statement = connection.createStatement()\r\n            val resultSet = statement.executeQuery(sql)\r\n            while (resultSet.next()) {\r\n                // Processar os resultados conforme necessário\r\n            }\r\n            resultSet.close()\r\n            statement.close()\r\n        } catch (e: SQLException) {\r\n            e.printStackTrace()\r\n        }\r\n    }\r\n\r\n    // Consulta: Altere o valor do VALOR_TOTAL para zero onde for nulo\r\n    fun updateValoresNulosParaZero() {\r\n        val sql = \"UPDATE venda SET preco_total = 0.00 WHERE preco_total IS NULL\"\r\n        try {\r\n            val statement = connection.createStatement()\r\n            statement.executeUpdate(sql)\r\n            println(\"Valores nulos de VALOR_TOTAL atualizados para zero com sucesso!\")\r\n            statement.close()\r\n        } catch (e: SQLException) {\r\n            e.printStackTrace()\r\n        }\r\n    }\r\n\r\n    // Consulta: Salário dos vendedores, ordenados do maior para o menor\r\n    fun listSalarioVendedoresOrdenados() {\r\n        val sql = \"SELECT salario FROM vendedor ORDER BY salario DESC\"\r\n        try {\r\n            val statement = connection.createStatement()\r\n            val resultSet = statement.executeQuery(sql)\r\n            while (resultSet.next()) {\r\n                val salario = resultSet.getDouble(\"salario\")\r\n                println(\"Salário: $salario\")\r\n            }\r\n            resultSet.close()\r\n            statement.close()\r\n        } catch (e: SQLException) {\r\n            e.printStackTrace()\r\n        }\r\n    }\r\n\r\n    // Excluir um cliente (substitua <ID_DO_CLIENTE_A_SER_EXCLUIDO> pelo ID real)\r\n    fun deleteCliente(id: Int) {\r\n        if (!ValidDataBaseModel.isValidClienteId(id)) {\r\n            println(\"ID de cliente inválido!\")\r\n            return\r\n        }\r\n        val sql = \"DELETE FROM cliente WHERE id_cliente=$id\"\r\n\r\n        try {\r\n            val statement = connection.createStatement()\r\n            statement.executeUpdate(sql)\r\n            println(\"Cliente com ID $id excluído com sucesso!\")\r\n            statement.close()\r\n        } catch (e: SQLException) {\r\n            e.printStackTrace()\r\n        }\r\n    }\r\n\r\n    // Desafio: Pesquisar quantos usuários têm o email zup.com.br\r\n    fun countUsersWithZupEmail() {\r\n        val sql = \"SELECT COUNT(*) as total FROM cliente WHERE email_cliente LIKE '%zup.com.br'\"\r\n        try {\r\n            val statement = connection.createStatement()\r\n            val resultSet = statement.executeQuery(sql)\r\n            if (resultSet.next()) {\r\n                val total = resultSet.getInt(\"total\")\r\n                println(\"Total de usuários com email zup.com.br: $total\")\r\n            }\r\n            resultSet.close()\r\n            statement.close()\r\n        } catch (e: SQLException) {\r\n            e.printStackTrace()\r\n        }\r\n    }\r\n}
+===================================================================
+diff --git a/src/main/kotlin/service/QueryInDatabaseService.kt b/src/main/kotlin/service/QueryInDatabaseService.kt
+--- a/src/main/kotlin/service/QueryInDatabaseService.kt	
++++ b/src/main/kotlin/service/QueryInDatabaseService.kt	
+@@ -10,12 +10,18 @@
+ 
+     // Consulta: Itens vendidos acima de 10,00
+     fun listItensVendidosAcimaDe10() {
+-        val sql = "SELECT * FROM venda WHERE preco_total > 10.00"
++        val sql = """
++            SELECT Venda.id_venda AS venda, Venda.preco_total AS preco
++            FROM Venda
++            WHERE preco_total > 10.00
++        """.trimIndent()
+         try {
+             val statement = connection.createStatement()
+             val resultSet = statement.executeQuery(sql)
+             while (resultSet.next()) {
+-                // Processar os resultados conforme necessário
++                val id_venda = resultSet.getInt("venda")
++                val preco_total = resultSet.getDouble("preco")
++                println("Venda: $id_venda | Preço: $preco_total")
+             }
+             resultSet.close()
+             statement.close()
+@@ -39,12 +45,12 @@
+ 
+     // Consulta: Salário dos vendedores, ordenados do maior para o menor
+     fun listSalarioVendedoresOrdenados() {
+-        val sql = "SELECT salario FROM vendedor ORDER BY salario DESC"
++        val sql = "SELECT salario_vendedor FROM vendedor ORDER BY salario_vendedor DESC"
+         try {
+             val statement = connection.createStatement()
+             val resultSet = statement.executeQuery(sql)
+             while (resultSet.next()) {
+-                val salario = resultSet.getDouble("salario")
++                val salario = resultSet.getDouble("salario_vendedor")
+                 println("Salário: $salario")
+             }
+             resultSet.close()
+@@ -53,28 +59,10 @@
+             e.printStackTrace()
+         }
+     }
+-
+-    // Excluir um cliente (substitua <ID_DO_CLIENTE_A_SER_EXCLUIDO> pelo ID real)
+-    fun deleteCliente(id: Int) {
+-        if (!ValidDataBaseModel.isValidClienteId(id)) {
+-            println("ID de cliente inválido!")
+-            return
+-        }
+-        val sql = "DELETE FROM cliente WHERE id_cliente=$id"
+-
+-        try {
+-            val statement = connection.createStatement()
+-            statement.executeUpdate(sql)
+-            println("Cliente com ID $id excluído com sucesso!")
+-            statement.close()
+-        } catch (e: SQLException) {
+-            e.printStackTrace()
+-        }
+-    }
+ 
+     // Desafio: Pesquisar quantos usuários têm o email zup.com.br
+     fun countUsersWithZupEmail() {
+-        val sql = "SELECT COUNT(*) as total FROM cliente WHERE email_cliente LIKE '%zup.com.br'"
++        val sql = "SELECT COUNT(*) AS total FROM cliente WHERE email_cliente LIKE '%zup.com.br'"
+         try {
+             val statement = connection.createStatement()
+             val resultSet = statement.executeQuery(sql)
+Index: src/main/kotlin/service/table/TableClienteService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package service.table\r\n\r\nimport connection.Connect\r\nimport model.ValidDataBaseModel\r\nimport java.sql.SQLException\r\n\r\nclass TableClienteService {\r\n    companion object {\r\n        var connection = Connect().creatConnect()\r\n\r\n        fun addCliente(nome_cliente: String, email_cliente: String, cpf: String, endereco_cliente: String) {\r\n            try {\r\n                if (!ValidDataBaseModel.isValidClienteInfo(nome_cliente, email_cliente, cpf, endereco_cliente)) {\r\n                    println(\"As informações do cliente não podem estar vazias ou nulas.\")\r\n                    return\r\n                }\r\n                if (!ValidDataBaseModel.isValidEmail(email_cliente)){\r\n                    println(\"Email invalido\")\r\n                }\r\n                val sql = \"INSERT INTO cliente (nome_cliente, email_cliente, cpf, endereco_cliente) VALUES ('$nome_cliente', '$email_cliente', '$cpf', '$endereco_cliente')\"\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Cliente $nome_cliente adicionado com sucesso!\")\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun deleteCliente(id: Int) {\r\n            if (!ValidDataBaseModel.isValidClienteId(id)) {\r\n                println(\"ID de cliente inválido!\")\r\n                return\r\n            }\r\n            val sql = \"DELETE FROM cliente WHERE id=$id\"\r\n\r\n            try {\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Cliente deletado com sucesso!\")\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun listCliente() {\r\n            val statement = connection.createStatement()\r\n            val resultSet = statement.executeQuery(\"SELECT id_cliente, nome_cliente, email_cliente, cpf, endereco_cliente FROM cliente\")\r\n\r\n            try {\r\n                while (resultSet.next()) {\r\n                    val id_cliente = resultSet.getInt(\"id_cliente\")\r\n                    val nome_cliente = resultSet.getString(\"nome_cliente\")\r\n                    val email_cliente = resultSet.getString(\"email_cliente\")\r\n                    val cpf = resultSet.getString(\"cpf\")\r\n                    val endereco_cliente = resultSet.getString(\"endereco_cliente\")\r\n\r\n                    println(\"ID: $id_cliente | Nome: $nome_cliente | Email: $email_cliente | CPF: $cpf | Endereço: $endereco_cliente\")\r\n                }\r\n                resultSet.close()\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun listSpecificCliente(id: Int) {\r\n            if (!ValidDataBaseModel.isValidClienteId(id)) {\r\n                println(\"ID de cliente inválido!\")\r\n                return\r\n            }\r\n            val statement = connection.createStatement()\r\n            val resultSet = statement.executeQuery(\"SELECT * FROM cliente WHERE id=$id\")\r\n\r\n            try {\r\n                while (resultSet.next()) {\r\n                    val id_cliente = resultSet.getInt(\"id_cliente\")\r\n                    val nome_cliente = resultSet.getString(\"nome_cliente\")\r\n                    val email_cliente = resultSet.getString(\"email_cliente\")\r\n                    val cpf = resultSet.getString(\"cpf\")\r\n                    val endereco_cliente = resultSet.getString(\"endereco_cliente\")\r\n\r\n                    println(\"ID: $id_cliente | Nome: $nome_cliente | Email: $email_cliente | CPF: $cpf | Endereço: $endereco_cliente\")\r\n                }\r\n                resultSet.close()\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n    }\r\n}
+===================================================================
+diff --git a/src/main/kotlin/service/table/TableClienteService.kt b/src/main/kotlin/service/table/TableClienteService.kt
+--- a/src/main/kotlin/service/table/TableClienteService.kt	
++++ b/src/main/kotlin/service/table/TableClienteService.kt	
+@@ -8,16 +8,16 @@
+     companion object {
+         var connection = Connect().creatConnect()
+ 
+-        fun addCliente(nome_cliente: String, email_cliente: String, cpf: String, endereco_cliente: String) {
++        fun addCliente(nome_cliente: String, email_cliente: String, cpf_cliente: String, endereco_cliente: String) {
+             try {
+-                if (!ValidDataBaseModel.isValidClienteInfo(nome_cliente, email_cliente, cpf, endereco_cliente)) {
++                if (!ValidDataBaseModel.isValidClienteInfo(nome_cliente, email_cliente, cpf_cliente, endereco_cliente)) {
+                     println("As informações do cliente não podem estar vazias ou nulas.")
+                     return
+                 }
+                 if (!ValidDataBaseModel.isValidEmail(email_cliente)){
+                     println("Email invalido")
+                 }
+-                val sql = "INSERT INTO cliente (nome_cliente, email_cliente, cpf, endereco_cliente) VALUES ('$nome_cliente', '$email_cliente', '$cpf', '$endereco_cliente')"
++                val sql = "INSERT INTO cliente (nome_cliente, email_cliente, cpf_cliente, endereco_cliente) VALUES ('$nome_cliente', '$email_cliente', '$cpf_cliente', '$endereco_cliente')"
+                 val statement = connection.createStatement()
+                 statement.executeUpdate(sql)
+                 println("Cliente $nome_cliente adicionado com sucesso!")
+@@ -45,14 +45,14 @@
+ 
+         fun listCliente() {
+             val statement = connection.createStatement()
+-            val resultSet = statement.executeQuery("SELECT id_cliente, nome_cliente, email_cliente, cpf, endereco_cliente FROM cliente")
++            val resultSet = statement.executeQuery("SELECT id_cliente, nome_cliente, email_cliente, cpf_cliente, endereco_cliente FROM cliente")
+ 
+             try {
+                 while (resultSet.next()) {
+                     val id_cliente = resultSet.getInt("id_cliente")
+                     val nome_cliente = resultSet.getString("nome_cliente")
+                     val email_cliente = resultSet.getString("email_cliente")
+-                    val cpf = resultSet.getString("cpf")
++                    val cpf = resultSet.getString("cpf_cliente")
+                     val endereco_cliente = resultSet.getString("endereco_cliente")
+ 
+                     println("ID: $id_cliente | Nome: $nome_cliente | Email: $email_cliente | CPF: $cpf | Endereço: $endereco_cliente")
+@@ -77,7 +77,7 @@
+                     val id_cliente = resultSet.getInt("id_cliente")
+                     val nome_cliente = resultSet.getString("nome_cliente")
+                     val email_cliente = resultSet.getString("email_cliente")
+-                    val cpf = resultSet.getString("cpf")
++                    val cpf = resultSet.getString("cpf_cliente")
+                     val endereco_cliente = resultSet.getString("endereco_cliente")
+ 
+                     println("ID: $id_cliente | Nome: $nome_cliente | Email: $email_cliente | CPF: $cpf | Endereço: $endereco_cliente")
+Index: src/main/kotlin/service/table/TableVendedorService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package service.table\r\n\r\nimport connection.Connect\r\nimport model.ValidDataBaseModel\r\nimport java.sql.SQLException\r\n\r\nclass TableVendedorService {\r\n    companion object {\r\n        var connection = Connect().creatConnect()\r\n\r\n        fun addVendedor(nome_vendedor: String, email_vendedor: String, cpf: String, salario: Double, senha: Int) {\r\n            try {\r\n                if (!ValidDataBaseModel.isValidVendedorInfo(nome_vendedor, email_vendedor, cpf)) {\r\n                    println(\"As informações do vendedor não podem estar vazias ou nulas.\")\r\n                    return\r\n                }\r\n                if (!ValidDataBaseModel.isValidEmail(email_vendedor)){\r\n                    println(\"Email inválido\")\r\n                    return\r\n                }\r\n                val sql = \"INSERT INTO vendedor (nome_vendedor, email_vendedor, cpf, salario, senha) VALUES ('$nome_vendedor', '$email_vendedor', '$cpf', $salario, $senha)\"\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Vendedor $nome_vendedor adicionado com sucesso!\")\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun deleteVendedor(id: Int) {\r\n            if (!ValidDataBaseModel.isValidVendedorId(id)) {\r\n                println(\"ID de vendedor inválido!\")\r\n                return\r\n            }\r\n            val sql = \"DELETE FROM vendedor WHERE id_vendedor=$id\"\r\n\r\n            try {\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Vendedor deletado com sucesso!\")\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n        // Função para atualizar um vendedor\r\n        fun updateVendedor(id: Int, nome_vendedor: String, email_vendedor: String, cpf: String, salario: Double) {\r\n            if (!ValidDataBaseModel.isValidVendedorId(id)) {\r\n                println(\"ID de vendedor inválido!\")\r\n                return\r\n            }\r\n            try {\r\n                // Validação de dados aqui, se necessário\r\n\r\n                val sql = \"UPDATE vendedor SET nome_vendedor='$nome_vendedor', email_vendedor='$email_vendedor', cpf='$cpf', salario=$salario WHERE id_vendedor=$id\"\r\n                val statement = connection.createStatement()\r\n                statement.executeUpdate(sql)\r\n                println(\"Vendedor $id atualizado com sucesso!\")\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n        fun listVendedores() {\r\n            val statement = connection.createStatement()\r\n            val resultSet = statement.executeQuery(\"SELECT id_vendedor, nome_vendedor, email_vendedor, cpf, salario FROM vendedor\")\r\n\r\n            try {\r\n                while (resultSet.next()) {\r\n                    val id_vendedor = resultSet.getInt(\"id_vendedor\")\r\n                    val nome_vendedor = resultSet.getString(\"nome_vendedor\")\r\n                    val email_vendedor = resultSet.getString(\"email_vendedor\")\r\n                    val cpf = resultSet.getString(\"cpf\")\r\n                    val salario = resultSet.getDouble(\"salario\")\r\n\r\n                    println(\"ID: $id_vendedor | Nome: $nome_vendedor | Email: $email_vendedor | CPF: $cpf | Salário: $salario\")\r\n                }\r\n                resultSet.close()\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n\r\n        fun listVendedorById(id: Int) {\r\n            if (!ValidDataBaseModel.isValidVendedorId(id)) {\r\n                println(\"ID de vendedor inválido!\")\r\n                return\r\n            }\r\n            val statement = connection.createStatement()\r\n            val resultSet = statement.executeQuery(\"SELECT * FROM vendedor WHERE id_vendedor=$id\")\r\n\r\n            try {\r\n                while (resultSet.next()) {\r\n                    val id_vendedor = resultSet.getInt(\"id_vendedor\")\r\n                    val nome_vendedor = resultSet.getString(\"nome_vendedor\")\r\n                    val email_vendedor = resultSet.getString(\"email_vendedor\")\r\n                    val cpf = resultSet.getString(\"cpf\")\r\n                    val salario = resultSet.getDouble(\"salario\")\r\n\r\n                    println(\"ID: $id_vendedor | Nome: $nome_vendedor | Email: $email_vendedor | CPF: $cpf | Salário: $salario\")\r\n                }\r\n                resultSet.close()\r\n                statement.close()\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n        }\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/kotlin/service/table/TableVendedorService.kt b/src/main/kotlin/service/table/TableVendedorService.kt
+--- a/src/main/kotlin/service/table/TableVendedorService.kt	
++++ b/src/main/kotlin/service/table/TableVendedorService.kt	
+@@ -8,9 +8,9 @@
+     companion object {
+         var connection = Connect().creatConnect()
+ 
+-        fun addVendedor(nome_vendedor: String, email_vendedor: String, cpf: String, salario: Double, senha: Int) {
++        fun addVendedor(nome_vendedor: String, email_vendedor: String, cpf_vendedor: String, salario_vendedor: Double, senha: Int) {
+             try {
+-                if (!ValidDataBaseModel.isValidVendedorInfo(nome_vendedor, email_vendedor, cpf)) {
++                if (!ValidDataBaseModel.isValidVendedorInfo(nome_vendedor, email_vendedor, cpf_vendedor)) {
+                     println("As informações do vendedor não podem estar vazias ou nulas.")
+                     return
+                 }
+@@ -18,7 +18,7 @@
+                     println("Email inválido")
+                     return
+                 }
+-                val sql = "INSERT INTO vendedor (nome_vendedor, email_vendedor, cpf, salario, senha) VALUES ('$nome_vendedor', '$email_vendedor', '$cpf', $salario, $senha)"
++                val sql = "INSERT INTO vendedor (nome_vendedor, email_vendedor, cpf_vendedor, salario_vendedor, senha) VALUES ('$nome_vendedor', '$email_vendedor', '$cpf_vendedor', $salario_vendedor, $senha)"
+                 val statement = connection.createStatement()
+                 statement.executeUpdate(sql)
+                 println("Vendedor $nome_vendedor adicionado com sucesso!")
+@@ -52,7 +52,7 @@
+             try {
+                 // Validação de dados aqui, se necessário
+ 
+-                val sql = "UPDATE vendedor SET nome_vendedor='$nome_vendedor', email_vendedor='$email_vendedor', cpf='$cpf', salario=$salario WHERE id_vendedor=$id"
++                val sql = "UPDATE vendedor SET nome_vendedor='$nome_vendedor', email_vendedor='$email_vendedor', cpf_vendedor='$cpf', salario_vendedor=$salario WHERE id_vendedor=$id"
+                 val statement = connection.createStatement()
+                 statement.executeUpdate(sql)
+                 println("Vendedor $id atualizado com sucesso!")
+@@ -62,15 +62,15 @@
+         }
+         fun listVendedores() {
+             val statement = connection.createStatement()
+-            val resultSet = statement.executeQuery("SELECT id_vendedor, nome_vendedor, email_vendedor, cpf, salario FROM vendedor")
++            val resultSet = statement.executeQuery("SELECT id_vendedor, nome_vendedor, email_vendedor, cpf_vendedor, salario_vendedor FROM vendedor")
+ 
+             try {
+                 while (resultSet.next()) {
+                     val id_vendedor = resultSet.getInt("id_vendedor")
+                     val nome_vendedor = resultSet.getString("nome_vendedor")
+                     val email_vendedor = resultSet.getString("email_vendedor")
+-                    val cpf = resultSet.getString("cpf")
+-                    val salario = resultSet.getDouble("salario")
++                    val cpf = resultSet.getString("cpf_vendedor")
++                    val salario = resultSet.getDouble("salario_vendedor")
+ 
+                     println("ID: $id_vendedor | Nome: $nome_vendedor | Email: $email_vendedor | CPF: $cpf | Salário: $salario")
+                 }
+@@ -94,8 +94,8 @@
+                     val id_vendedor = resultSet.getInt("id_vendedor")
+                     val nome_vendedor = resultSet.getString("nome_vendedor")
+                     val email_vendedor = resultSet.getString("email_vendedor")
+-                    val cpf = resultSet.getString("cpf")
+-                    val salario = resultSet.getDouble("salario")
++                    val cpf = resultSet.getString("cpf_vendedor")
++                    val salario = resultSet.getDouble("salario_vendedor")
+ 
+                     println("ID: $id_vendedor | Nome: $nome_vendedor | Email: $email_vendedor | CPF: $cpf | Salário: $salario")
+                 }

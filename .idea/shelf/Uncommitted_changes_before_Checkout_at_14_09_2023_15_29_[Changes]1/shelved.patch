@@ -1,0 +1,222 @@
+Index: src/main/kotlin/model/ValidDataBaseModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model\r\n\r\nimport connection.Connect\r\nimport java.sql.SQLException\r\nimport java.text.SimpleDateFormat\r\nimport java.util.*\r\n\r\nclass ValidDataBaseModel {\r\n    companion object {\r\n        private val connection = Connect().creatConnect()\r\n\r\n        // Validar ID\r\n        fun isValidVendaId(id: Int): Boolean {\r\n            val sql = \"SELECT COUNT(*) FROM venda WHERE id=?\"\r\n\r\n            try {\r\n                val preparedStatement = connection.prepareStatement(sql)\r\n                preparedStatement.setInt(1, id)\r\n                val resultSet = preparedStatement.executeQuery()\r\n                resultSet.next()\r\n                val count = resultSet.getInt(1)\r\n\r\n                resultSet.close()\r\n                preparedStatement.close()\r\n\r\n                return count > 0\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n\r\n            return false\r\n        }\r\n\r\n        fun isValidProdutoId(id: Int): Boolean {\r\n            val sql = \"SELECT COUNT(*) FROM produto WHERE id=?\"\r\n\r\n            try {\r\n                val preparedStatement = connection.prepareStatement(sql)\r\n                preparedStatement.setInt(1, id)\r\n                val resultSet = preparedStatement.executeQuery()\r\n                resultSet.next()\r\n                val count = resultSet.getInt(1)\r\n\r\n                resultSet.close()\r\n                preparedStatement.close()\r\n\r\n                return count > 0\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n\r\n            return false\r\n        }\r\n\r\n        fun isValidVendedorId(id: Int): Boolean {\r\n            val sql = \"SELECT COUNT(*) FROM vendedor WHERE id = ?\"\r\n\r\n            try {\r\n                val preparedStatement = connection.prepareStatement(sql)\r\n                preparedStatement.setInt(1, id)\r\n                val resultSet = preparedStatement.executeQuery()\r\n                resultSet.next()\r\n                val count = resultSet.getInt(1)\r\n\r\n                resultSet.close()\r\n                preparedStatement.close()\r\n\r\n                return count > 0\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n            return false\r\n        }\r\n\r\n        fun isValidClienteId(id: Int): Boolean {\r\n            val sql = \"SELECT COUNT(*) FROM cliente WHERE id=?\"\r\n\r\n            try {\r\n                val preparedStatement = connection.prepareStatement(sql)\r\n                preparedStatement.setInt(1, id)\r\n                val resultSet = preparedStatement.executeQuery()\r\n                resultSet.next()\r\n                val count = resultSet.getInt(1)\r\n\r\n                resultSet.close()\r\n                preparedStatement.close()\r\n\r\n                return count > 0\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n\r\n            return false\r\n        }\r\n\r\n        //Validar Indormações nulas ou vazias\r\n        fun isValidProdutoInfo(nome_produto: String): Boolean {\r\n            return nome_produto.isNotBlank()\r\n        }\r\n\r\n        fun isValidVendedorInfo(nome_vendedor: String, email_vendedor: String, cpf: String): Boolean {\r\n            return nome_vendedor.isNotBlank() && email_vendedor.isNotBlank() && cpf.isNotBlank()\r\n        }\r\n\r\n        fun isValidClienteInfo(nome_cliente: String, email_cliente: String, cpf: String, endereco_cliente: String): Boolean {\r\n            return nome_cliente.isNotBlank() && email_cliente.isNotBlank() && cpf.isNotBlank() && endereco_cliente.isNotBlank()\r\n        }\r\n\r\n        // Validar entrada de email\r\n\r\n        fun isValidEmail(email: String): Boolean {\r\n            return email.contains(\"@\")\r\n        }\r\n        fun isValidAdminCredentials(email_user: String, password_user: Int): Boolean {\r\n            if (email_user.isBlank()) {\r\n                println(\"O email do usuário e a senha não podem estar vazios.\")\r\n                return false\r\n            }\r\n\r\n            val sql = \"SELECT COUNT(*) FROM administrator WHERE email_user=? AND password_user=?\"\r\n\r\n            try {\r\n                val preparedStatement = connection.prepareStatement(sql)\r\n                preparedStatement.setString(1, email_user)\r\n                preparedStatement.setInt(2, password_user)\r\n                val resultSet = preparedStatement.executeQuery()\r\n                resultSet.next()\r\n                val count = resultSet.getInt(1)\r\n\r\n                resultSet.close()\r\n                preparedStatement.close()\r\n\r\n                return count > 0\r\n            } catch (e: SQLException) {\r\n                e.printStackTrace()\r\n            }\r\n\r\n            return false\r\n        }\r\n\r\n        fun validarQtd(qtd: Int): Boolean {\r\n            if (qtd <= 0) {\r\n                println(\"A quantidade do produto deve ser maior que zero.\")\r\n                return false\r\n            }\r\n            return true\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/kotlin/model/ValidDataBaseModel.kt b/src/main/kotlin/model/ValidDataBaseModel.kt
+--- a/src/main/kotlin/model/ValidDataBaseModel.kt	
++++ b/src/main/kotlin/model/ValidDataBaseModel.kt	
+@@ -2,8 +2,6 @@
+ 
+ import connection.Connect
+ import java.sql.SQLException
+-import java.text.SimpleDateFormat
+-import java.util.*
+ 
+ class ValidDataBaseModel {
+     companion object {
+@@ -138,12 +136,12 @@
+             return false
+         }
+ 
+-        fun validarQtd(qtd: Int): Boolean {
+-            if (qtd <= 0) {
+-                println("A quantidade do produto deve ser maior que zero.")
+-                return false
+-            }
+-            return true
+-        }
++//        fun validarQtd(qtd: Int?): Boolean {
++//            if (qtd < 0) {
++//                println("A quantidade do produto deve ser maior que zero.")
++//                return false
++//            }
++//            return true
++//        }
+     }
+ }
+\ No newline at end of file
+Index: src/main/kotlin/Main.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>fun main(args: Array<String>) {\r\n    println(\"Hello World!\")\r\n\r\n    // Try adding program arguments via Run/Debug configuration.\r\n    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.\r\n    println(\"Program arguments: ${args.joinToString()}\")\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/kotlin/Main.kt b/src/main/kotlin/Main.kt
+--- a/src/main/kotlin/Main.kt	
++++ b/src/main/kotlin/Main.kt	
+@@ -1,7 +1,36 @@
++import service.QueryInDatabaseService
++import service.table.TableVendaService
++
+ fun main(args: Array<String>) {
+-    println("Hello World!")
++    val query = QueryInDatabaseService()
++
++//    TableClienteService.addCliente("Raissa Vicente", "raissa@gmail.com", "12345678910", "Rua Manoel rodrigues quadros, 554, Jardim Maria Antonia")
++//    TableClienteService.addCliente("Ana", "ana@zup.com.br", "01987654321", "Rua Antonia, 123, Jardim Matão")
++//    TableClienteService.listCliente()
++
++//    TableVendedorService.addVendedor("Lalesca", "la@gmail.com", "12378945610", 2500.00, 123)
++//    TableVendedorService.addVendedor("Ana V.", "aninha@zup.com.br", "56756756757", 2200.00,122)
++//    TableVendedorService.listVendedores()
++
++//    TableProdutoService.addProduto("Notbook", 3000.00)
++//    TableProdutoService.addProduto("MacBook", 6000.00)
++//    TableProdutoService.addProduto("Notbook Dell", 3500.00)
++//    TableProdutoService.addProduto("MacBook Pro", 9500.00)
++//    TableProdutoService.listProdutos()
++
++//    TableVendaService.addVenda(2,1,4,2)
++//    TableVendaService.addVenda(1,2,1,1)
++    TableVendaService.addVenda(1,1,4,null,null)
++//    TableVendaService.listVendas()
+ 
+-    // Try adding program arguments via Run/Debug configuration.
+-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
+-    println("Program arguments: ${args.joinToString()}")
++
++    query.listItensVendidosAcimaDe10()
++    println()
++//    query.updateValoresNulosParaZero()
++    TableVendaService.listVendas()
++    println()
++    query.listSalarioVendedoresOrdenados()
++    println()
++    query.countUsersWithZupEmail()
++
+ }
+\ No newline at end of file
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <artifactId>RHSimCity</artifactId>\r\n    <groupId>org.example</groupId>\r\n    <version>1.0-SNAPSHOT</version>\r\n    <packaging>jar</packaging>\r\n\r\n    <name>consoleApp</name>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n        <kotlin.code.style>official</kotlin.code.style>\r\n        <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>\r\n    </properties>\r\n\r\n    <repositories>\r\n        <repository>\r\n            <id>mavenCentral</id>\r\n            <url>https://repo1.maven.org/maven2/</url>\r\n        </repository>\r\n    </repositories>\r\n\r\n    <build>\r\n        <sourceDirectory>src/main/kotlin</sourceDirectory>\r\n        <testSourceDirectory>src/test/kotlin</testSourceDirectory>\r\n        <plugins>\r\n            <plugin>\r\n                <groupId>org.jetbrains.kotlin</groupId>\r\n                <artifactId>kotlin-maven-plugin</artifactId>\r\n                <version>1.8.0</version>\r\n                <executions>\r\n                    <execution>\r\n                        <id>compile</id>\r\n                        <phase>compile</phase>\r\n                        <goals>\r\n                            <goal>compile</goal>\r\n                        </goals>\r\n                    </execution>\r\n                    <execution>\r\n                        <id>test-compile</id>\r\n                        <phase>test-compile</phase>\r\n                        <goals>\r\n                            <goal>test-compile</goal>\r\n                        </goals>\r\n                    </execution>\r\n                </executions>\r\n            </plugin>\r\n            <plugin>\r\n                <artifactId>maven-surefire-plugin</artifactId>\r\n                <version>2.22.2</version>\r\n            </plugin>\r\n            <plugin>\r\n                <artifactId>maven-failsafe-plugin</artifactId>\r\n                <version>2.22.2</version>\r\n            </plugin>\r\n            <plugin>\r\n                <groupId>org.codehaus.mojo</groupId>\r\n                <artifactId>exec-maven-plugin</artifactId>\r\n                <version>1.6.0</version>\r\n                <configuration>\r\n                    <mainClass>MainKt</mainClass>\r\n                </configuration>\r\n            </plugin>\r\n        </plugins>\r\n    </build>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.jetbrains.kotlin</groupId>\r\n            <artifactId>kotlin-test-junit5</artifactId>\r\n            <version>1.8.0</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.junit.jupiter</groupId>\r\n            <artifactId>junit-jupiter-engine</artifactId>\r\n            <version>5.8.2</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.jetbrains.kotlin</groupId>\r\n            <artifactId>kotlin-stdlib-jdk8</artifactId>\r\n            <version>1.8.0</version>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	
++++ b/pom.xml	
+@@ -86,6 +86,11 @@
+             <artifactId>kotlin-stdlib-jdk8</artifactId>
+             <version>1.8.0</version>
+         </dependency>
++        <dependency>
++            <groupId>org.postgresql</groupId>
++            <artifactId>postgresql</artifactId>
++            <version>42.6.0</version>
++        </dependency>
+     </dependencies>
+ 
+ </project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"39e59dae-e60b-4b2d-9866-051028d4fd95\" name=\"Changes\" comment=\"\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2VOGj7AYcOnSYycgIpEz1t595UJ\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"dart.analysis.tool.window.visible\": \"false\",\r\n    \"show.migrate.to.gradle.popup\": \"false\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"39e59dae-e60b-4b2d-9866-051028d4fd95\" name=\"Changes\" comment=\"\" />\r\n      <created>1694699851116</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1694699851116</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,11 +4,27 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="39e59dae-e60b-4b2d-9866-051028d4fd95" name="Changes" comment="" />
++    <list default="true" id="39e59dae-e60b-4b2d-9866-051028d4fd95" name="Changes" comment="Commit atualização">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/ValidDataBaseModel.kt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/QueryInDatabaseService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/QueryInDatabaseService.kt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableClienteService.kt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendaService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendaService.kt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendedorService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/service/table/TableVendedorService.kt" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="Kotlin Class" />
++      </list>
++    </option>
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -23,9 +39,32 @@
+   "keyToString": {
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "dart.analysis.tool.window.visible": "false",
++    "last_opened_file_path": "C:/Users/raissa.carvalho/Desktop/RHSimCity/src/main/kotlin",
+     "show.migrate.to.gradle.popup": "false"
+   }
+ }]]></component>
++  <component name="RecentsManager">
++    <key name="CopyFile.RECENT_KEYS">
++      <recent name="C:\Users\raissa.carvalho\Desktop\RHSimCity\src\main\kotlin" />
++    </key>
++    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
++      <recent name="service.table" />
++    </key>
++  </component>
++  <component name="RunManager">
++    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="MainKt" />
++      <module name="RHSimCity" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <recent_temporary>
++      <list>
++        <item itemvalue="Kotlin.MainKt" />
++      </list>
++    </recent_temporary>
++  </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+@@ -35,6 +74,33 @@
+       <option name="presentableId" value="Default" />
+       <updated>1694699851116</updated>
+     </task>
++    <task id="LOCAL-00001" summary="Commit Inicial">
++      <created>1694705149555</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1694705149555</updated>
++    </task>
++    <task id="LOCAL-00002" summary="Commit atualização">
++      <created>1694705790824</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1694705790824</updated>
++    </task>
++    <task id="LOCAL-00003" summary="Commit atualização">
++      <created>1694711248727</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1694711248727</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="Commit Inicial" />
++    <MESSAGE value="Commit atualização" />
++    <option name="LAST_COMMIT_MESSAGE" value="Commit atualização" />
++  </component>
+ </project>
+\ No newline at end of file

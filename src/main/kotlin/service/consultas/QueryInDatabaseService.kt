@@ -9,12 +9,12 @@ class QueryInDatabaseService {
     var connection = Connect().creatConnect()
 
     fun listItensVendidosAcimaDe10() {
-        val sql = """
+        try {
+            val sql = """
             SELECT Venda.id_venda AS venda, Venda.preco_total AS preco
             FROM Venda
             WHERE preco_total > 10.00
         """.trimIndent()
-        try {
             val statement = connection.createStatement()
             val resultSet = statement.executeQuery(sql)
             while (resultSet.next()) {
